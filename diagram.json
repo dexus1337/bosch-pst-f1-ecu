@@ -1,0 +1,40 @@
+{
+  "version": 1,
+  "author": "Anonymous maker",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "wokwi-arduino-nano", "id": "nano", "top": 0, "left": 0, "attrs": {} },
+    {
+      "type": "board-ssd1306",
+      "id": "oled1",
+      "top": -6.46,
+      "left": -134.17,
+      "attrs": { "i2cAddress": "0x3c" }
+    },
+    { "type": "wokwi-potentiometer", "id": "pot1", "top": 94.7, "left": -163.4, "attrs": {} },
+    { "type": "wokwi-potentiometer", "id": "pot2", "top": 94.7, "left": -77, "attrs": {} },
+    {
+      "type": "wokwi-ntc-temperature-sensor",
+      "id": "ntc1",
+      "top": -93.4,
+      "left": 191.4,
+      "attrs": { "beta": "3020", "temperature": "0" }
+    }
+  ],
+  "connections": [
+    [ "oled1:GND", "nano:GND.2", "black", [ "v-105.6", "h221.3" ] ],
+    [ "oled1:VCC", "nano:VIN", "red", [ "v-96", "h240.65" ] ],
+    [ "oled1:SCL", "nano:A5", "green", [ "v-86.4", "h173.6" ] ],
+    [ "oled1:SDA", "nano:A4", "green", [ "v-76.8", "h154.17" ] ],
+    [ "nano:VIN", "pot1:VCC", "red", [ "v139.2", "h-326.1" ] ],
+    [ "pot1:GND", "nano:GND.1", "black", [ "v57.6", "h336.5" ] ],
+    [ "pot1:SIG", "nano:A1", "green", [ "v48", "h240.1" ] ],
+    [ "nano:VIN", "pot2:VCC", "red", [ "v139.2", "h-182.1" ] ],
+    [ "nano:A2", "pot2:SIG", "green", [ "v129.6", "h-105.7" ] ],
+    [ "nano:GND.1", "pot2:GND", "black", [ "v158.4", "h-192.5" ] ],
+    [ "nano:VIN", "ntc1:VCC", "red", [ "h201.1", "v-120" ] ],
+    [ "ntc1:GND", "nano:GND.1", "black", [ "h38.4", "v134.4", "h-220.3" ] ],
+    [ "nano:A3", "ntc1:OUT", "green", [ "v14.4", "h249.1" ] ]
+  ],
+  "dependencies": {}
+}
