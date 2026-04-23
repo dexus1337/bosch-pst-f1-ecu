@@ -25,7 +25,7 @@ static constexpr int    sensor_pressure_pin     = A2;
 static constexpr int    sensor_temperature_pin  = A3;
 static constexpr float  adc_max                 = 1023.0f;
 
-#define WOKI_SIM
+#define WOWKI_SIM
 
 void 
 setup
@@ -92,13 +92,13 @@ read_sensor_temperature
     void
 ) 
 {
-    #if defined WOKI_SIM
-    static constexpr float series_resistor      = 10000.f;  // 4600.0f; bosch
+    #if defined WOWKI_SIM
+    static constexpr float series_resistor      = 10000.f; 
     static constexpr float nominal_temperature  = 25.0f;
-    static constexpr float nominal_resistance   = 10000.0f; // resistance at nominal temp
-    static constexpr float beta_coefficient     = 3020.0f;  // calculated, maybe switch to linear calibration later, we have all the values
+    static constexpr float nominal_resistance   = 10000.0f;
+    static constexpr float beta_coefficient     = 3020.0f;
     #else
-    static constexpr float series_resistor      = 4600.f;   // 4600.0f; bosch
+    static constexpr float series_resistor      = 4600.f;   // bosch
     static constexpr float nominal_temperature  = 20.0f;
     static constexpr float nominal_resistance   = 2480.0f;  // resistance at nominal temp
     static constexpr float beta_coefficient     = 3480.0f;  // calculated, maybe switch to linear calibration later, we have all the values
