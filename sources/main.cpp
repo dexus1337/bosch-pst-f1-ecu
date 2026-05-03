@@ -116,15 +116,18 @@ read_sensor_temperature
     static constexpr float beta_coefficient     = 3020.0f;
     #else
     static constexpr float nominal_temperature  = 20.0f;
-    static constexpr float nominal_resistance   = 2480.0f;  // resistance at nominal temp
-    static constexpr float beta_coefficient     = 3480.0f;  // calculated, maybe switch to linear calibration later, we have all the values
-    
+    static constexpr float nominal_resistance   = 2480.0f;
+    static constexpr float beta_coefficient     = 3480.0f;
     #endif
 
     // based on steinhart equation for NTC thermistors
     int raw_adc = analogRead(sensor_temperature_pin);
 
+    #if defined WOWKI_SIM
+    float resistance = series_resistor / ((adc_max / (float)raw_adc) - 1.0f);
+    #else
     float resistance = temp_4_6k_resistance / ((adc_max / (float)raw_adc) - 1.0f);
+    #endif
 
     float temperature_kelvin;
     temperature_kelvin = log(resistance / nominal_resistance);      // ln(R/Ro)
