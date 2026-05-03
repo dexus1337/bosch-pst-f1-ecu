@@ -27,7 +27,7 @@ static constexpr unsigned int    sensor_pressure_pin     = A3;
 static constexpr float adc_max                           = 1023.0f;
 
 // Modify these for more exact voltage reading
-static constexpr unsigned int    voltage_10k_resistance  = 9980;
+static constexpr unsigned int    voltage_10k_resistance  = 9836;
 static constexpr unsigned int    voltage_2_2k_resistance = 2150;
 
 // Modify these for more exact temperature reading
