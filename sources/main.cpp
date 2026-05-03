@@ -21,8 +21,8 @@ display
 );
 
 static constexpr unsigned int    voltage_pin             = A1;
-static constexpr unsigned int    sensor_temperature_pin  = A3;
-static constexpr unsigned int    sensor_pressure_pin     = A2;
+static constexpr unsigned int    sensor_temperature_pin  = A2;
+static constexpr unsigned int    sensor_pressure_pin     = A3;
 
 static constexpr float adc_max                           = 1023.0f;
 
