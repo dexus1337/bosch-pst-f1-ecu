@@ -1,3 +1,13 @@
+/**
+ * @file main.cpp
+ * @brief Main entry point for the Bosch PST F1 ECU dashboard display.
+ * 
+ * This file contains the setup and main loop for reading sensor data
+ * (battery voltage, oil pressure, and oil temperature) and displaying 
+ * it on a 128x64 SSD1306 OLED screen. It includes the logic for ADC 
+ * conversions, thermistor calculations using the Steinhart-Hart equation, 
+ * and temporal averaging of the readings for display stability.
+ */
 #include <Arduino.h>
 #include <Wire.h>
 #include <Adafruit_GFX.h>
@@ -37,11 +47,14 @@ static constexpr unsigned int    temp_4_6k_resistance    = 4550;
 
 bool error = false;
 
-void 
-setup
-(
-    void
-) 
+/**
+ * @brief Initializes the system, display, and pins.
+ * 
+ * Configures the built-in LED pin, initializes the SSD1306 OLED display,
+ * and shows a startup splash screen (AMG logo). Sets an error flag if 
+ * the display initialization fails.
+ */
+void setup(void) 
 {
     delay(1000);
 
@@ -65,11 +78,16 @@ setup
     delay(2000);
 }
 
-float 
-read_car_voltage
-(
-    void
-) 
+/**
+ * @brief Reads and calculates the car's battery voltage.
+ * 
+ * Samples the analog voltage pin, scales the ADC value to a pin voltage,
+ * and applies a voltage divider ratio to determine the actual car 
+ * battery voltage.
+ * 
+ * @return float The calculated car battery voltage in Volts.
+ */
+float read_car_voltage(void) 
 {
     int raw_voltage = analogRead(voltage_pin);
     
@@ -86,11 +104,16 @@ read_car_voltage
     return car_voltage;
 }
 
-float 
-read_sensor_pressure
-(
-    void
-) 
+/**
+ * @brief Reads and calculates the sensor pressure.
+ * 
+ * Samples the analog pressure pin, scales it to a voltage, and maps
+ * that voltage linearly to a pressure value in bar. Clamps negative 
+ * pressure values to 0.
+ * 
+ * @return float The calculated sensor pressure in bar.
+ */
+float read_sensor_pressure(void) 
 {
     int raw_voltage = analogRead(sensor_pressure_pin);
     float pin_voltage = raw_voltage * (5.0f / adc_max);
@@ -103,11 +126,16 @@ read_sensor_pressure
     return pressure_bar;
 }
 
-float 
-read_sensor_temperature
-(
-    void
-) 
+/**
+ * @brief Reads and calculates the sensor temperature.
+ * 
+ * Uses an NTC thermistor to measure temperature. Samples the analog 
+ * temperature pin, calculates the current resistance, and applies the 
+ * Steinhart-Hart equation to derive the temperature.
+ * 
+ * @return float The calculated sensor temperature in degrees Celsius.
+ */
+float read_sensor_temperature(void) 
 {
     #if defined WOWKI_SIM
     static constexpr float series_resistor      = 10000.f; 
@@ -146,11 +174,15 @@ int cur_index       = 0;
 unsigned long time  = 0;
 bool led_state      = false;
 
-void 
-loop
-(
-    void
-) 
+/**
+ * @brief Main application loop.
+ * 
+ * Handles the built-in LED error state blinking, continuously reads
+ * sensor data (voltage, pressure, temperature), and averages every 
+ * 10 readings. The averaged results are then pushed to the OLED display
+ * alongside the corresponding icons.
+ */
+void loop(void) 
 {
     auto cur_time = millis();
 
